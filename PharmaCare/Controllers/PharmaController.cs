@@ -13,6 +13,8 @@ namespace PharmaCare.Controllers
     [ApiController]
     public class PharmaController : ControllerBase
     {
+
+        //Visibility changed to private of git - Test1
         private readonly ILogger<DrugDTO> _logger;
         private readonly PharmacyContext _context;
 
