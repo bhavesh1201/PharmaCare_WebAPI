@@ -23,15 +23,15 @@ namespace PharmaCare.Controllers
             this._logger = logger;
             _context = context; 
         }
-        [HttpGet]
-        public ActionResult<IEnumerable<DrugDTO>> GetAllDrug() {
+        [HttpGet] // This Get Fetches all the drug in form of list
+        public  async Task<ActionResult<IEnumerable<DrugDTO>>> GetAllDrug() {
 
             _logger.LogInformation("Getting All drug infomarion");
-            return Ok(_context.Drugs.ToList());
+            return Ok(await _context.Drugs.ToListAsync());
 
         }
-        [HttpGet("{Id}", Name = "GetDrug")]
-        public ActionResult<DrugDTO> GetDrug(int Id)
+        [HttpGet("{Id}", Name = "GetDrug")]  // This Get method fetches particular drug from the database
+        public async Task<ActionResult<DrugDTO>> GetDrug(int Id)
         {
 
             if (Id == 0)
@@ -39,7 +39,7 @@ namespace PharmaCare.Controllers
                 _logger.LogError("Invalid Id is" + Id);
                 return BadRequest();
             }
-            var temp = _context.Drugs.FirstOrDefault(u => u.Id == Id);
+            var temp = await _context.Drugs.FirstOrDefaultAsync(u => u.Id == Id);
             if (temp == null)
             {
                 _logger.LogError("Id not found");
@@ -51,8 +51,8 @@ namespace PharmaCare.Controllers
         }
 
 
-        [HttpPost]
-        public ActionResult<Drug> AddDrug([FromBody] Drug drug)
+        [HttpPost] // This method inserts new drug in database
+        public async Task<ActionResult<Drug>> AddDrug([FromBody] Drug drug)
         {
             if (drug == null)
             {
@@ -67,8 +67,8 @@ namespace PharmaCare.Controllers
             _logger.LogInformation($"{drug.DrugName} has been added to database");
           //  drug.Id = _context.Drugs.OrderByDescending(u => u.Id).FirstOrDefault().Id + 1;
 
-            _context.Drugs.Add(drug);
-            _context.SaveChanges();
+          await _context.Drugs.AddAsync(drug);
+          await  _context.SaveChangesAsync();
             return CreatedAtRoute("GetDrug", new { id = drug.Id }, drug);
 
 
@@ -76,24 +76,29 @@ namespace PharmaCare.Controllers
         }
 
 
-        [HttpDelete("{Id}", Name = "DeleteDrug")]
-        public IActionResult DeleteDrug(int Id)
+        [HttpDelete("{Id}", Name = "DeleteDrug")] // This method deletes existince drug from database
+        public async Task<IActionResult> DeleteDrug(int Id)
         {
             if (Id == null)
             {
                 return BadRequest();
             }
 
-            var drz = _context.Drugs.Where(u => u.Id == Id).FirstOrDefault();
+            var drz = await _context.Drugs.Where(u => u.Id == Id).FirstOrDefaultAsync();
+
+            if (drz == null)
+            {
+                return BadRequest();
+            }
 
             _logger.LogInformation($"{drz.DrugName} Has Been Deleted from Database");
             _context.Drugs.Remove(drz);
-            _context.SaveChanges();
+           await _context.SaveChangesAsync();
             return Ok();
         }
 
-        [HttpPut("{Id}", Name = "UpdateDrug")]
-        public IActionResult Update(int Id, [FromBody] Drug drug)
+        [HttpPut("{Id}", Name = "UpdateDrug")] // This method updates the drug
+        public async Task<IActionResult> Update(int Id, [FromBody] Drug drug)
         {
 
             if (Id == null || Id == 0 || Id != drug.Id) return BadRequest();
@@ -115,21 +120,21 @@ namespace PharmaCare.Controllers
 
             _logger.LogInformation($"{drug.DrugName} Has been updated");
             _context.Drugs.Update(drg);
-            _context.SaveChanges(); 
+             await _context.SaveChangesAsync(); 
             return Ok();
 
 
         }
 
-        [HttpPatch("{Id}", Name = "PartialUpdateDrug")]
+        [HttpPatch("{Id}", Name = "PartialUpdateDrug")] // this method updates the particular feild of drug
 
-        public IActionResult PartialUpdateDrug(int Id, JsonPatchDocument<DrugDTO> patch)
+        public async Task<IActionResult> PartialUpdateDrug(int Id, JsonPatchDocument<DrugDTO> patch)
         {
             if (Id == null || Id == 0)
             {
                 return BadRequest();
             }
-            var temp = _context.Drugs.AsNoTracking().Where(u => u.Id == Id).FirstOrDefault();
+            var temp = await _context.Drugs.AsNoTracking().Where(u => u.Id == Id).FirstOrDefaultAsync();
             if (temp == null) return BadRequest();
 
 
@@ -163,7 +168,7 @@ namespace PharmaCare.Controllers
 
             _logger.LogInformation($"{temp.DrugName} Has been updated");
             _context.Drugs.Update(tempz);
-            _context.SaveChanges();
+           await _context.SaveChangesAsync();
 
             return Ok();
 
