@@ -1,5 +1,8 @@
 using Microsoft.EntityFrameworkCore;
+using PharmaCare;
 using PharmaCare.Data;
+using PharmaCare.Repository;
+using PharmaCare.Repository.IRepository;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +13,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<PharmacyContext>(options => options
 .UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))); // ConnectionString Add krdia hai
+
+builder.Services.AddAutoMapper(typeof(MappingConfig)); // Added new service for mapping infinite feilds
+
+
+builder.Services.AddScoped<IDrugRepository,DrugRepository>();
+
 
 
 builder.Services.AddControllers().AddNewtonsoftJson(); // patch use krne ke liye addNewton use kia

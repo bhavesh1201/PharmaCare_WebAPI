@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using PharmaCare.Data;
 using PharmaCare.Models;
 using PharmaCare.Models.DTO;
+using PharmaCare.Repository.IRepository;
 
 namespace PharmaCare.Controllers
 {
@@ -15,19 +16,22 @@ namespace PharmaCare.Controllers
     {
 
         //Visibility changed to private of git - Test1
-        private readonly ILogger<DrugDTO> _logger;
-        private readonly PharmacyContext _context;
+        private readonly ILogger<DrugDTO> _logger;   // Injected Logger Dependecy Injection
+        protected APIResponses responses; // All responses return at one place
+        private readonly IDrugRepository _drugRepository; //Injected Drug Dependency Injection
 
-        public PharmaController(ILogger<DrugDTO> logger, PharmacyContext context)
+        public PharmaController(ILogger<DrugDTO> logger, IDrugRepository drugRepository)
         {
             this._logger = logger;
-            _context = context; 
+             _drugRepository = drugRepository;
+            responses = new();
         }
         [HttpGet] // This Get Fetches all the drug in form of list
         public  async Task<ActionResult<IEnumerable<DrugDTO>>> GetAllDrug() {
 
             _logger.LogInformation("Getting All drug infomarion");
-            return Ok(await _context.Drugs.ToListAsync());
+            return Ok(await _drugRepository.GetAllAsync());
+            
 
         }
         [HttpGet("{Id}", Name = "GetDrug")]  // This Get method fetches particular drug from the database
@@ -39,7 +43,7 @@ namespace PharmaCare.Controllers
                 _logger.LogError("Invalid Id is" + Id);
                 return BadRequest();
             }
-            var temp = await _context.Drugs.FirstOrDefaultAsync(u => u.Id == Id);
+            var temp = await _drugRepository.GetAsync(u=>u.Id==Id);
             if (temp == null)
             {
                 _logger.LogError("Id not found");
@@ -67,8 +71,8 @@ namespace PharmaCare.Controllers
             _logger.LogInformation($"{drug.DrugName} has been added to database");
           //  drug.Id = _context.Drugs.OrderByDescending(u => u.Id).FirstOrDefault().Id + 1;
 
-          await _context.Drugs.AddAsync(drug);
-          await  _context.SaveChangesAsync();
+          await _drugRepository.CreateAsync(drug);
+          await  _drugRepository.SaveAsync();
             return CreatedAtRoute("GetDrug", new { id = drug.Id }, drug);
 
 
@@ -84,7 +88,7 @@ namespace PharmaCare.Controllers
                 return BadRequest();
             }
 
-            var drz = await _context.Drugs.Where(u => u.Id == Id).FirstOrDefaultAsync();
+            var drz = await _drugRepository.GetAsync(u => u.Id == Id);
 
             if (drz == null)
             {
@@ -92,8 +96,8 @@ namespace PharmaCare.Controllers
             }
 
             _logger.LogInformation($"{drz.DrugName} Has Been Deleted from Database");
-            _context.Drugs.Remove(drz);
-           await _context.SaveChangesAsync();
+           await _drugRepository.RemoveAsync(drz);
+           await _drugRepository.SaveAsync();
             return Ok();
         }
 
@@ -102,7 +106,7 @@ namespace PharmaCare.Controllers
         {
 
             if (Id == null || Id == 0 || Id != drug.Id) return BadRequest();
-            var drg = _context.Drugs.Where(u => u.Id == Id).FirstOrDefault();
+            var drg = await _drugRepository.GetAsync(u => u.Id == Id);
 
 
 
@@ -119,8 +123,8 @@ namespace PharmaCare.Controllers
 
 
             _logger.LogInformation($"{drug.DrugName} Has been updated");
-            _context.Drugs.Update(drg);
-             await _context.SaveChangesAsync(); 
+          await _drugRepository.UpdateAsync(drg);
+             await _drugRepository.SaveAsync(); 
             return Ok();
 
 
@@ -134,7 +138,7 @@ namespace PharmaCare.Controllers
             {
                 return BadRequest();
             }
-            var temp = await _context.Drugs.AsNoTracking().Where(u => u.Id == Id).FirstOrDefaultAsync();
+            var temp = await _drugRepository.GetAsync(u => u.Id == Id,false);
             if (temp == null) return BadRequest();
 
 
@@ -167,8 +171,8 @@ namespace PharmaCare.Controllers
             if(!ModelState.IsValid)return BadRequest();
 
             _logger.LogInformation($"{temp.DrugName} Has been updated");
-            _context.Drugs.Update(tempz);
-           await _context.SaveChangesAsync();
+             await _drugRepository.UpdateAsync(tempz);
+           await _drugRepository.SaveAsync();
 
             return Ok();
 
