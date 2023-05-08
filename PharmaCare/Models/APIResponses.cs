@@ -6,10 +6,10 @@ namespace PharmaCare.Models
     {
         public HttpStatusCode  HttpStatus {get;set;}
 
-        public bool IsSuccess { get;set;}   
+        public bool IsSuccess = true;  
 
-        public List<String> Messages { get; set;}   
-
+        public List<String> ErrorMessages { get; set;}   
+        
         public object Result { get; set;}   
 
 

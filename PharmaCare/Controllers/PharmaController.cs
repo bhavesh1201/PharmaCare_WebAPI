@@ -7,6 +7,7 @@ using PharmaCare.Data;
 using PharmaCare.Models;
 using PharmaCare.Models.DTO;
 using PharmaCare.Repository.IRepository;
+using System.Net;
 
 namespace PharmaCare.Controllers
 {
@@ -23,110 +24,183 @@ namespace PharmaCare.Controllers
         public PharmaController(ILogger<DrugDTO> logger, IDrugRepository drugRepository)
         {
             this._logger = logger;
-             _drugRepository = drugRepository;
+            _drugRepository = drugRepository;
             responses = new();
         }
         [HttpGet] // This Get Fetches all the drug in form of list
-        public  async Task<ActionResult<IEnumerable<DrugDTO>>> GetAllDrug() {
+        public async Task<ActionResult<APIResponses>> GetAllDrug()
+        {
 
-            _logger.LogInformation("Getting All drug infomarion");
-            return Ok(await _drugRepository.GetAllAsync());
-            
+
+            try
+            {
+                _logger.LogInformation("Getting All drug infomarion");
+                responses.Result = await _drugRepository.GetAllAsync();
+                responses.HttpStatus = HttpStatusCode.OK;
+                return Ok(responses);
+
+            }
+            catch (Exception ex)
+            {
+                responses.IsSuccess = false;
+                responses.ErrorMessages = new List<string>() { ex.ToString() };
+            }
+
+            return responses;
+
+
 
         }
         [HttpGet("{Id}", Name = "GetDrug")]  // This Get method fetches particular drug from the database
-        public async Task<ActionResult<DrugDTO>> GetDrug(int Id)
+        public async Task<ActionResult<APIResponses>> GetDrug(int Id)
         {
 
-            if (Id == 0)
+
+            try
             {
-                _logger.LogError("Invalid Id is" + Id);
-                return BadRequest();
+
+                if (Id == 0)
+                {
+                    _logger.LogError("Invalid Id is" + Id);
+                    return BadRequest();
+                }
+                var temp = await _drugRepository.GetAsync(u => u.Id == Id);
+                if (temp == null)
+                {
+                    _logger.LogError("Id not found");
+                    return NotFound();
+                }
+                _logger.LogInformation($"{temp.DrugName} has been Accessed");
+
+                responses.Result = await _drugRepository.GetAsync(u => u.Id == Id);
+                responses.HttpStatus = HttpStatusCode.OK;
+                return Ok(responses);
             }
-            var temp = await _drugRepository.GetAsync(u=>u.Id==Id);
-            if (temp == null)
+            catch (Exception ex)
             {
-                _logger.LogError("Id not found");
-                return NotFound();
+                responses.IsSuccess = false;
+                responses.ErrorMessages = new List<string>() { ex.ToString() };
             }
-            _logger.LogInformation($"{temp.DrugName} has been Accessed");
-            return Ok(temp);
+
+            return responses;
 
         }
 
 
         [HttpPost] // This method inserts new drug in database
-        public async Task<ActionResult<Drug>> AddDrug([FromBody] Drug drug)
+        public async Task<ActionResult<APIResponses>> AddDrug([FromBody] Drug drug)
         {
-            if (drug == null)
+
+
+
+            try
             {
-                return BadRequest();
+                if (drug == null)
+                {
+                    return BadRequest();
+                }
+
+                if (drug.Id > 0)
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError);
+                }
+
+                _logger.LogInformation($"{drug.DrugName} has been added to database");
+                //  drug.Id = _context.Drugs.OrderByDescending(u => u.Id).FirstOrDefault().Id + 1;
+
+                await _drugRepository.CreateAsync(drug);
+                await _drugRepository.SaveAsync();
+
+                responses.Result = drug;
+                responses.HttpStatus = HttpStatusCode.Created;
+                return CreatedAtRoute("GetDrug", new { id = drug.Id }, responses);
+            }
+            catch (Exception ex)
+            {
+                responses.IsSuccess = false;
+                responses.ErrorMessages = new List<string>() { ex.ToString() };
             }
 
-            if (drug.Id > 0)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError);
-            }
-
-            _logger.LogInformation($"{drug.DrugName} has been added to database");
-          //  drug.Id = _context.Drugs.OrderByDescending(u => u.Id).FirstOrDefault().Id + 1;
-
-          await _drugRepository.CreateAsync(drug);
-          await  _drugRepository.SaveAsync();
-            return CreatedAtRoute("GetDrug", new { id = drug.Id }, drug);
-
+            return responses;
 
 
         }
 
 
         [HttpDelete("{Id}", Name = "DeleteDrug")] // This method deletes existince drug from database
-        public async Task<IActionResult> DeleteDrug(int Id)
+        public async Task<ActionResult<APIResponses>> DeleteDrug(int Id)
         {
-            if (Id == null)
+
+            try
             {
-                return BadRequest();
+                if (Id == null)
+                {
+                    return BadRequest();
+                }
+
+                var drz = await _drugRepository.GetAsync(u => u.Id == Id);
+
+                if (drz == null)
+                {
+                    return BadRequest();
+                }
+
+                _logger.LogInformation($"{drz.DrugName} Has Been Deleted from Database");
+                await _drugRepository.RemoveAsync(drz);
+                await _drugRepository.SaveAsync();
+
+                responses.HttpStatus = HttpStatusCode.NoContent;
+                responses.IsSuccess = true;
+                return Ok(responses);
+            }
+            catch (Exception ex)
+            {
+                responses.IsSuccess = false;
+                responses.ErrorMessages = new List<string>() { ex.ToString() };
             }
 
-            var drz = await _drugRepository.GetAsync(u => u.Id == Id);
-
-            if (drz == null)
-            {
-                return BadRequest();
-            }
-
-            _logger.LogInformation($"{drz.DrugName} Has Been Deleted from Database");
-           await _drugRepository.RemoveAsync(drz);
-           await _drugRepository.SaveAsync();
-            return Ok();
+            return responses;
         }
 
         [HttpPut("{Id}", Name = "UpdateDrug")] // This method updates the drug
-        public async Task<IActionResult> Update(int Id, [FromBody] Drug drug)
+        public async Task<ActionResult<APIResponses>> Update(int Id, [FromBody] Drug drug)
         {
 
-            if (Id == null || Id == 0 || Id != drug.Id) return BadRequest();
-            var drg = await _drugRepository.GetAsync(u => u.Id == Id);
+            try
+            {
+
+                if (Id == null || Id == 0 || Id != drug.Id) return BadRequest();
+                var drg = await _drugRepository.GetAsync(u => u.Id == Id);
 
 
 
 
 
-            //Id = drug.Id,
-            drg.price = drug.price;
-            drg.DrugName = drug.DrugName;
-            drg.ExpiryDate = drug.ExpiryDate;
+                //Id = drug.Id,
+                drg.price = drug.price;
+                drg.DrugName = drug.DrugName;
+                drg.ExpiryDate = drug.ExpiryDate;
 
 
-            drg.ImageUrl = drug.ImageUrl;
-           
+                drg.ImageUrl = drug.ImageUrl;
 
 
-            _logger.LogInformation($"{drug.DrugName} Has been updated");
-          await _drugRepository.UpdateAsync(drg);
-             await _drugRepository.SaveAsync(); 
-            return Ok();
 
+                _logger.LogInformation($"{drug.DrugName} Has been updated");
+                await _drugRepository.UpdateAsync(drg);
+                await _drugRepository.SaveAsync();
+
+                responses.HttpStatus = HttpStatusCode.NoContent;
+                responses.IsSuccess = true;
+                return Ok(responses);
+            }
+            catch (Exception ex)
+            {
+                responses.IsSuccess = false;
+                responses.ErrorMessages = new List<string>() { ex.ToString() };
+            }
+
+            return responses;
 
         }
 
@@ -134,11 +208,13 @@ namespace PharmaCare.Controllers
 
         public async Task<IActionResult> PartialUpdateDrug(int Id, JsonPatchDocument<DrugDTO> patch)
         {
+
+
             if (Id == null || Id == 0)
             {
                 return BadRequest();
             }
-            var temp = await _drugRepository.GetAsync(u => u.Id == Id,false);
+            var temp = await _drugRepository.GetAsync(u => u.Id == Id, false);
             if (temp == null) return BadRequest();
 
 
@@ -159,20 +235,20 @@ namespace PharmaCare.Controllers
 
             Drug tempz = new Drug()
             {
-                Id= drg.Id,
-            price = drg.price,
-            DrugName = drg.DrugName,
-            ExpiryDate = drg.ExpieryDate,
-            
-            ImageUrl = drg.ImageUrl
-        };
-            
-          
-            if(!ModelState.IsValid)return BadRequest();
+                Id = drg.Id,
+                price = drg.price,
+                DrugName = drg.DrugName,
+                ExpiryDate = drg.ExpieryDate,
+
+                ImageUrl = drg.ImageUrl
+            };
+
+
+            if (!ModelState.IsValid) return BadRequest();
 
             _logger.LogInformation($"{temp.DrugName} Has been updated");
-             await _drugRepository.UpdateAsync(tempz);
-           await _drugRepository.SaveAsync();
+            await _drugRepository.UpdateAsync(tempz);
+            await _drugRepository.SaveAsync();
 
             return Ok();
 
