@@ -12,7 +12,13 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 builder.Services.AddDbContext<PharmacyContext>(options => options
-.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))); // ConnectionString Add krdia hai
+.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))); // Added Connection String h
+
+
+builder.Services.AddCors(cors => cors.AddPolicy("MyPolicy", builder =>
+{
+    builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+}));  // By default all request is declined by http link , we have manually used the cors to allow request
 
 builder.Services.AddAutoMapper(typeof(MappingConfig)); // Added new service for mapping infinite feilds
 
@@ -46,6 +52,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseRouting();  // added routing here
+app.UseCors("MyPolicy");
+//added my policy
 
 app.UseAuthorization();
 

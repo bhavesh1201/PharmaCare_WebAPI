@@ -28,7 +28,7 @@ namespace PharmaCare.Controllers
             responses = new();
         }
         [HttpGet] // This Get Fetches all the drug in form of list
-        public async Task<ActionResult<APIResponses>> GetAllDrug()
+        public async Task<ActionResult<List<Drug>>> GetAllDrug()
         {
 
 
@@ -37,7 +37,7 @@ namespace PharmaCare.Controllers
                 _logger.LogInformation("Getting All drug infomarion");
                 responses.Result = await _drugRepository.GetAllAsync();
                 responses.HttpStatus = HttpStatusCode.OK;
-                return Ok(responses);
+                return Ok(responses.Result);
 
             }
             catch (Exception ex)
@@ -46,8 +46,8 @@ namespace PharmaCare.Controllers
                 responses.ErrorMessages = new List<string>() { ex.ToString() };
             }
 
-            return responses;
-
+            return Ok(responses.Result);
+             
 
 
         }
@@ -88,7 +88,7 @@ namespace PharmaCare.Controllers
 
 
         [HttpPost] // This method inserts new drug in database
-        public async Task<ActionResult<APIResponses>> AddDrug([FromBody] Drug drug)
+        public async Task<ActionResult> AddDrug([FromBody] Drug drug)
         {
 
 
@@ -113,6 +113,7 @@ namespace PharmaCare.Controllers
 
                 responses.Result = drug;
                 responses.HttpStatus = HttpStatusCode.Created;
+                return Ok();
                 return CreatedAtRoute("GetDrug", new { id = drug.Id }, responses);
             }
             catch (Exception ex)
@@ -121,7 +122,7 @@ namespace PharmaCare.Controllers
                 responses.ErrorMessages = new List<string>() { ex.ToString() };
             }
 
-            return responses;
+            return Ok();
 
 
         }
@@ -163,7 +164,7 @@ namespace PharmaCare.Controllers
         }
 
         [HttpPut("{Id}", Name = "UpdateDrug")] // This method updates the drug
-        public async Task<ActionResult<APIResponses>> Update(int Id, [FromBody] Drug drug)
+        public async Task<ActionResult> Update(int Id,  Drug drug)
         {
 
             try
@@ -192,7 +193,7 @@ namespace PharmaCare.Controllers
 
                 responses.HttpStatus = HttpStatusCode.NoContent;
                 responses.IsSuccess = true;
-                return Ok(responses);
+                return Ok(responses.Result);
             }
             catch (Exception ex)
             {
@@ -200,7 +201,8 @@ namespace PharmaCare.Controllers
                 responses.ErrorMessages = new List<string>() { ex.ToString() };
             }
 
-            return responses;
+            return BadRequest(responses.Result);
+                
 
         }
 
