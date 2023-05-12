@@ -9,7 +9,8 @@ namespace PharmaCare.Repository
     {
 
           private readonly PharmacyContext _context;
-          internal DbSet<T> _dbSet;
+       // private readonly AppDbContext _db;
+        internal DbSet<T> _dbSet;
 
         public  Repository(PharmacyContext context)
         {

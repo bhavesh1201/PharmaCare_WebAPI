@@ -13,7 +13,9 @@ namespace PharmaCare.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PharmaController : ControllerBase
+
+   
+    public class DrugController : ControllerBase
     {
 
         //Visibility changed to private of git - Test1
@@ -21,7 +23,7 @@ namespace PharmaCare.Controllers
         protected APIResponses responses; // All responses return at one place
         private readonly IDrugRepository _drugRepository; //Injected Drug Dependency Injection
 
-        public PharmaController(ILogger<DrugDTO> logger, IDrugRepository drugRepository)
+        public DrugController(ILogger<DrugDTO> logger, IDrugRepository drugRepository)
         {
             this._logger = logger;
             _drugRepository = drugRepository;
@@ -44,6 +46,7 @@ namespace PharmaCare.Controllers
             {
                 responses.IsSuccess = false;
                 responses.ErrorMessages = new List<string>() { ex.ToString() };
+                return BadRequest();
             }
 
             return Ok(responses.Result);

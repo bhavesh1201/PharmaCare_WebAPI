@@ -12,14 +12,24 @@ namespace PharmaCare.Data
         }
 
         public DbSet<Drug>Drugs { get; set; }
+        public DbSet<Supplier> Suppliers { get; set; }  
+
+
+        public DbSet<Doctor> Doctors { get; set; }  
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Drug>().HasData(
 
 
-                new Drug {Id=1, DrugName = "Acetaminophen" , DateCreated = DateTime.Now ,
-                    ExpiryDate = new DateTime(2084, 11, 29) , price=421f , ImageUrl =""
+                new Drug
+                {
+                    Id = 1,
+                    DrugName = "Acetaminophen",
+                    DateCreated = DateTime.Now,
+                    ExpiryDate = new DateTime(2084, 11, 29),
+                    price = 421f,
+                    ImageUrl = ""
 
                 },
                  new Drug
@@ -79,8 +89,34 @@ namespace PharmaCare.Data
 
 
                 );
-            
-            
+
+            modelBuilder.Entity<Supplier>().HasData(
+               new Supplier
+               {
+                   SuppilerId = 1,
+                   SuppilerName = "David Waxon",
+                   DrugId = 1,
+                   Email = "DavidWA@gmail.com "
+               },
+                new Supplier
+                {
+                    SuppilerId = 2,
+                    SuppilerName = "Antony ",
+                    DrugId = 1,
+                    Email = "Andk@gmail.com "
+                },
+                 new Supplier
+                 {
+                     SuppilerId = 3,
+                     SuppilerName = "Johan",
+                     DrugId = 1,
+                     Email = "JohnSc@gmail.com "
+                 }
+
+               );
+
+
+
         }
 
     }

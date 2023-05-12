@@ -24,6 +24,7 @@ builder.Services.AddAutoMapper(typeof(MappingConfig)); // Added new service for 
 
 
 builder.Services.AddScoped<IDrugRepository,DrugRepository>();
+builder.Services.AddScoped<ISuppilerRepository,SuppilerRepository>();   
 
 
 
@@ -33,6 +34,8 @@ Log.Logger = new LoggerConfiguration().MinimumLevel.Information()
     .WriteTo.File("log/DrugLogs.txt",rollingInterval:RollingInterval.Infinite)
     .CreateLogger();  // Logges store kr rha hu is file main , jo new file infinite time main banegi aur level hai debug mtlb debug
                       // ke upper sare logs store honge
+
+
 
 
 
