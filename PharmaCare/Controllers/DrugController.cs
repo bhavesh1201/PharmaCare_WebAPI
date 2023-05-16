@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
@@ -29,7 +30,13 @@ namespace PharmaCare.Controllers
             _drugRepository = drugRepository;
             responses = new();
         }
+
+
+
+        #region Get All drugs
         [HttpGet] // This Get Fetches all the drug in form of list
+
+        [Authorize(Roles ="doctor")]
         public async Task<ActionResult<List<Drug>>> GetAllDrug()
         {
 
@@ -54,6 +61,13 @@ namespace PharmaCare.Controllers
 
 
         }
+        #endregion
+
+
+
+
+        #region Get Specific drug
+
         [HttpGet("{Id}", Name = "GetDrug")]  // This Get method fetches particular drug from the database
         public async Task<ActionResult<APIResponses>> GetDrug(int Id)
         {
@@ -89,7 +103,13 @@ namespace PharmaCare.Controllers
 
         }
 
+        #endregion
 
+
+
+        #region Add new Drug
+
+        [Authorize(Roles = "doctor")]
         [HttpPost] // This method inserts new drug in database
         public async Task<ActionResult> AddDrug([FromBody] Drug drug)
         {
@@ -129,7 +149,12 @@ namespace PharmaCare.Controllers
 
 
         }
+        #endregion
 
+
+
+
+        #region Delete Drug
 
         [HttpDelete("{Id}", Name = "DeleteDrug")] // This method deletes existince drug from database
         public async Task<ActionResult<APIResponses>> DeleteDrug(int Id)
@@ -165,7 +190,12 @@ namespace PharmaCare.Controllers
 
             return responses;
         }
+        #endregion
 
+
+
+
+        #region Update drug details
         [HttpPut("{Id}", Name = "UpdateDrug")] // This method updates the drug
         public async Task<ActionResult> Update(int Id,  Drug drug)
         {
@@ -208,6 +238,11 @@ namespace PharmaCare.Controllers
                 
 
         }
+
+        #endregion
+
+
+        #region Update Particular Feild of drug
 
         [HttpPatch("{Id}", Name = "PartialUpdateDrug")] // this method updates the particular feild of drug
 
@@ -258,6 +293,7 @@ namespace PharmaCare.Controllers
             return Ok();
 
         }
+        #endregion
 
 
 

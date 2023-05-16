@@ -1,9 +1,12 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using PharmaCare;
 using PharmaCare.Data;
 using PharmaCare.Repository;
 using PharmaCare.Repository.IRepository;
 using Serilog;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,9 +26,31 @@ builder.Services.AddCors(cors => cors.AddPolicy("MyPolicy", builder =>
 builder.Services.AddAutoMapper(typeof(MappingConfig)); // Added new service for mapping infinite feilds
 
 
+var key = builder.Configuration.GetValue<string>("ApiSettings:Secret");  // Getting secret key value from json file
+#region Services
+//All the Services has been injected here
 builder.Services.AddScoped<IDrugRepository,DrugRepository>();
-builder.Services.AddScoped<ISuppilerRepository,SuppilerRepository>();   
+builder.Services.AddScoped<ISuppilerRepository,SuppilerRepository>();
+builder.Services.AddScoped<IDoctorRepository, DoctorRepository>();
+#endregion
 
+builder.Services.AddAuthentication(x =>
+{
+    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer (x=>
+{
+    x.RequireHttpsMetadata = false;
+    x.SaveToken = true;
+    x.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(key)),
+        ValidateIssuer = false,
+        ValidateAudience = false
+    };
+
+}); // Authentication
 
 
 builder.Services.AddControllers().AddNewtonsoftJson(); // patch use krne ke liye addNewton use kia
@@ -41,7 +66,7 @@ Log.Logger = new LoggerConfiguration().MinimumLevel.Information()
 
 builder.Host.UseSerilog();  //DEFAULT LOGGER KI JHAGA SERILOG KA INSTINCT CHLA JAYGA  + added 3 packages
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -58,7 +83,7 @@ app.UseHttpsRedirection();
 app.UseRouting();  // added routing here
 app.UseCors("MyPolicy");
 //added my policy
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

@@ -2,17 +2,17 @@
 
 namespace PharmaCare.Models.DTO
 {
-    public class LoginRequest
+    public class LoginRequestDTO
     {
 
         
 
        
 
-        public string Name { get; set; }
+        public string password { get; set; }
 
 
       
-        public int Email { get; set; }
+        public string Email { get; set; }
     }
 }

@@ -28,6 +28,10 @@ namespace PharmaCare.Controllers
         }
 
 
+
+
+        #region Get all the suppliers
+
         [HttpGet] // This Get Fetches all the drug in form of list
         public async Task<ActionResult<List<Supplier>>> GetAllSupplier()
         {
@@ -52,6 +56,11 @@ namespace PharmaCare.Controllers
 
 
         }
+
+        #endregion
+
+
+        #region Get Specific Supplier
         [HttpGet("{Id}", Name = "GetSupplier")]  // This Get method fetches particular drug from the database
         public async Task<ActionResult<APIResponses>> GetSupplier(int Id)
         {
@@ -87,7 +96,12 @@ namespace PharmaCare.Controllers
 
         }
 
+        #endregion
 
+
+
+
+        #region Add a new supplier
         [HttpPost] // This method inserts new supplier in database
         public async Task<ActionResult> AddSupplier([FromBody] Supplier supplier)
         {
@@ -128,7 +142,12 @@ namespace PharmaCare.Controllers
 
         }
 
+        #endregion
 
+
+
+
+        #region Remove a supplier
         [HttpDelete("{Id}", Name = "DeleteSupplier")] // This method deletes existince drug from database
         public async Task<ActionResult<APIResponses>> DeleteSupplier(int Id)
         {
@@ -164,6 +183,13 @@ namespace PharmaCare.Controllers
             return responses;
         }
 
+
+        #endregion
+
+
+
+
+        #region Update Supplier Details
         [HttpPut("{Id}", Name = "UpdateSupplier")] // This method updates the drug
         public async Task<ActionResult> UpdateSupplier(int Id, SupplierDTO supplier)
         {
@@ -205,5 +231,6 @@ namespace PharmaCare.Controllers
 
 
         }
+        #endregion
     }
 }
