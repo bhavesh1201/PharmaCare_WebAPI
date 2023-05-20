@@ -50,7 +50,7 @@ builder.Services.AddAuthentication(x =>
         ValidateAudience = false
     };
 
-}); // Authentication
+}); // Authentication laga diya 
 
 
 builder.Services.AddControllers().AddNewtonsoftJson(); // patch use krne ke liye addNewton use kia
@@ -69,6 +69,7 @@ builder.Host.UseSerilog();  //DEFAULT LOGGER KI JHAGA SERILOG KA INSTINCT CHLA J
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
 
 var app = builder.Build();
 

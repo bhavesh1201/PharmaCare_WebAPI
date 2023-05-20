@@ -12,8 +12,8 @@ using PharmaCare.Data;
 namespace PharmaCare.Migrations
 {
     [DbContext(typeof(PharmacyContext))]
-    [Migration("20230513055731_changes2")]
-    partial class changes2
+    [Migration("20230519183133_intial_V2")]
+    partial class intial_V2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -83,7 +83,7 @@ namespace PharmaCare.Migrations
                         new
                         {
                             Id = 1,
-                            DateCreated = new DateTime(2023, 5, 13, 11, 27, 31, 280, DateTimeKind.Local).AddTicks(2311),
+                            DateCreated = new DateTime(2023, 5, 20, 0, 1, 33, 70, DateTimeKind.Local).AddTicks(8399),
                             DrugName = "Acetaminophen",
                             ExpiryDate = new DateTime(2084, 11, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ImageUrl = "",
@@ -92,7 +92,7 @@ namespace PharmaCare.Migrations
                         new
                         {
                             Id = 2,
-                            DateCreated = new DateTime(2023, 5, 13, 11, 27, 31, 280, DateTimeKind.Local).AddTicks(2334),
+                            DateCreated = new DateTime(2023, 5, 20, 0, 1, 33, 70, DateTimeKind.Local).AddTicks(8422),
                             DrugName = "Doxycycline",
                             ExpiryDate = new DateTime(2025, 9, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ImageUrl = "",
@@ -101,7 +101,7 @@ namespace PharmaCare.Migrations
                         new
                         {
                             Id = 3,
-                            DateCreated = new DateTime(2023, 5, 13, 11, 27, 31, 280, DateTimeKind.Local).AddTicks(2338),
+                            DateCreated = new DateTime(2023, 5, 20, 0, 1, 33, 70, DateTimeKind.Local).AddTicks(8425),
                             DrugName = "Lexapro",
                             ExpiryDate = new DateTime(2025, 1, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ImageUrl = "",
@@ -110,7 +110,7 @@ namespace PharmaCare.Migrations
                         new
                         {
                             Id = 4,
-                            DateCreated = new DateTime(2023, 5, 13, 11, 27, 31, 280, DateTimeKind.Local).AddTicks(2342),
+                            DateCreated = new DateTime(2023, 5, 20, 0, 1, 33, 70, DateTimeKind.Local).AddTicks(8426),
                             DrugName = "Pantoprazole",
                             ExpiryDate = new DateTime(2031, 11, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ImageUrl = "",
@@ -119,7 +119,7 @@ namespace PharmaCare.Migrations
                         new
                         {
                             Id = 5,
-                            DateCreated = new DateTime(2023, 5, 13, 11, 27, 31, 280, DateTimeKind.Local).AddTicks(2345),
+                            DateCreated = new DateTime(2023, 5, 20, 0, 1, 33, 70, DateTimeKind.Local).AddTicks(8428),
                             DrugName = "secukinumab",
                             ExpiryDate = new DateTime(2027, 9, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ImageUrl = "",
@@ -128,7 +128,7 @@ namespace PharmaCare.Migrations
                         new
                         {
                             Id = 6,
-                            DateCreated = new DateTime(2023, 5, 13, 11, 27, 31, 280, DateTimeKind.Local).AddTicks(2348),
+                            DateCreated = new DateTime(2023, 5, 20, 0, 1, 33, 70, DateTimeKind.Local).AddTicks(8430),
                             DrugName = "Wegovy",
                             ExpiryDate = new DateTime(2052, 10, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ImageUrl = "",
@@ -181,6 +181,41 @@ namespace PharmaCare.Migrations
                             Email = "JohnSc@gmail.com ",
                             SuppilerName = "Johan"
                         });
+                });
+
+            modelBuilder.Entity("PharmaCare.Models.User", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+
+                    b.Property<int>("Username")
+                        .HasColumnType("int");
+
+                    b.Property<int>("age")
+                        .HasColumnType("int");
+
+                    b.Property<string>("email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("role")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("id");
+
+                    b.ToTable("Users");
                 });
 #pragma warning restore 612, 618
         }

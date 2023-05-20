@@ -14,6 +14,8 @@ namespace PharmaCare.Data
         public DbSet<Drug>Drugs { get; set; }
         public DbSet<Supplier> Suppliers { get; set; }  
 
+        public DbSet<User> Users { get; set; } 
+
 
         public DbSet<Doctor> Doctors { get; set; }  
 
