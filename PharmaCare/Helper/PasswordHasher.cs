@@ -4,8 +4,49 @@ namespace PharmaCare.Helper
 {
     public class PasswordHasher
     {
-        RNGCryptoServiceProvider rng = null;
+       private static RNGCryptoServiceProvider rng =  new RNGCryptoServiceProvider();
+        private readonly static int HashSize = 20;
+        private readonly static int SaltSize = 16;
+        private readonly static int Iteration = 1000;
 
+
+        public static string HashPassword(string password)
+        {
+
+            byte[] salt;
+            rng.GetBytes(salt = new byte[SaltSize]);
+            var key = new Rfc2898DeriveBytes(password,salt,Iteration);
+            var hash = key.GetBytes(HashSize);
+
+            var hashBytes = new byte[SaltSize+ HashSize];
+            Array.Copy(salt , 0 , hashBytes , 0 , SaltSize);
+            Array.Copy(hash,0 , hashBytes , SaltSize ,HashSize); 
+            var base64Hash = Convert.ToBase64String(hashBytes);
+            return base64Hash;
+
+
+        }
+
+        public static bool VerifyPassword(string password, string base64Hash)
+        {
+            var hashByte = Convert.FromBase64String(base64Hash);
+            var salt = new byte[SaltSize];
+
+            Array.Copy(hashByte,0,salt , 0 , SaltSize);
+            var key = new Rfc2898DeriveBytes(password, salt, Iteration);
+
+            byte[] hash = key.GetBytes(HashSize);
+            
+            for(var i = 0; i < HashSize; i++)
+            {
+
+                if (hashByte[i+ SaltSize] != hash[i])
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
 
 
     }
