@@ -22,7 +22,7 @@ namespace PharmaCare.Models
         public DateTime ExpiryDate { get; set; }
 
 
-        public String ImageUrl { get; set; }    
+        
 
 
 

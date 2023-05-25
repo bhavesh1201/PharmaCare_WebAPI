@@ -30,8 +30,8 @@ namespace PharmaCare.Data
                     DrugName = "Acetaminophen",
                     DateCreated = DateTime.Now,
                     ExpiryDate = new DateTime(2084, 11, 29),
-                    price = 421f,
-                    ImageUrl = ""
+                    price = 421f
+                   
 
                 },
                  new Drug
@@ -40,8 +40,8 @@ namespace PharmaCare.Data
                      DrugName = "Doxycycline",
                      DateCreated = DateTime.Now,
                      ExpiryDate = new DateTime(2025, 9, 13),
-                     price = 321f,
-                     ImageUrl = ""
+                     price = 321f
+                    
 
                  },
                   new Drug
@@ -51,8 +51,7 @@ namespace PharmaCare.Data
                       DrugName = "Lexapro",
                       DateCreated = DateTime.Now,
                       ExpiryDate = new DateTime(2025, 1, 12),
-                      price = 401f,
-                      ImageUrl = ""
+                      price = 401f
 
                   },
                    new Drug
@@ -62,8 +61,7 @@ namespace PharmaCare.Data
                        DrugName = "Pantoprazole",
                        DateCreated = DateTime.Now,
                        ExpiryDate = new DateTime(2031, 11, 21),
-                       price = 921f,
-                       ImageUrl = ""
+                       price = 921f
 
                    },
                     new Drug
@@ -73,8 +71,7 @@ namespace PharmaCare.Data
                         DrugName = "secukinumab",
                         DateCreated = DateTime.Now,
                         ExpiryDate = new DateTime(2027, 9, 28),
-                        price = 1123f,
-                        ImageUrl = ""
+                        price = 1123f
 
                     },
                      new Drug
@@ -84,8 +81,7 @@ namespace PharmaCare.Data
                          DrugName = "Wegovy",
                          DateCreated = DateTime.Now,
                          ExpiryDate = new DateTime(2052, 10, 29),
-                         price = 891f,
-                         ImageUrl = ""
+                         price = 891f
 
                      }
 

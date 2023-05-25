@@ -36,7 +36,7 @@ namespace PharmaCare.Controllers
         #region Get All drugs
         [HttpGet] // This Get Fetches all the drug in form of list
 
-        [Authorize(Roles ="doctor")]
+       // [Authorize(Roles ="doctor")]
         public async Task<ActionResult<List<Drug>>> GetAllDrug()
         {
 
@@ -109,7 +109,7 @@ namespace PharmaCare.Controllers
 
         #region Add new Drug
 
-        [Authorize(Roles = "doctor")]
+       
         [HttpPost] // This method inserts new drug in database
         public async Task<ActionResult> AddDrug([FromBody] Drug drug)
         {
@@ -216,7 +216,7 @@ namespace PharmaCare.Controllers
                 drg.ExpiryDate = drug.ExpiryDate;
 
 
-                drg.ImageUrl = drug.ImageUrl;
+              
 
 
 
@@ -264,7 +264,7 @@ namespace PharmaCare.Controllers
                 DrugName = temp.DrugName,
                 price = temp.price,
                 ExpieryDate = temp.ExpiryDate,
-                ImageUrl = temp.ImageUrl,
+               
 
 
             };
@@ -278,9 +278,9 @@ namespace PharmaCare.Controllers
                 Id = drg.Id,
                 price = drg.price,
                 DrugName = drg.DrugName,
-                ExpiryDate = drg.ExpieryDate,
+                ExpiryDate = drg.ExpieryDate
 
-                ImageUrl = drg.ImageUrl
+                
             };
 
 

@@ -20,6 +20,7 @@ namespace PharmaCare.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [SwaggerControllerOrder(1)]
     public class UserController : ControllerBase
     {
 

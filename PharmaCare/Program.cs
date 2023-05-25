@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using PharmaCare;
@@ -6,9 +7,12 @@ using PharmaCare.Data;
 using PharmaCare.Repository;
 using PharmaCare.Repository.IRepository;
 using Serilog;
+using System.Reflection;
 using System.Text;
+using static PharmaCare.SwaggerControllerOrderAttribute;
 
 var builder = WebApplication.CreateBuilder(args);
+SwaggerControllerOrder<ControllerBase> swaggerControllerOrder = new SwaggerControllerOrder<ControllerBase>(Assembly.GetEntryAssembly());
 
 // Add services to the container.
 
@@ -68,7 +72,12 @@ builder.Host.UseSerilog();  //DEFAULT LOGGER KI JHAGA SERILOG KA INSTINCT CHLA J
 
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+//builder.Services.AddSwaggerGen();
+
+builder.Services.AddSwaggerGen(c =>
+{
+    c.OrderActionsBy((apiDesc) => $"{swaggerControllerOrder.SortKey(apiDesc.ActionDescriptor.RouteValues["controller"])}");
+});
 
 
 var app = builder.Build();
