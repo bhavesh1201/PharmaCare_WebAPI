@@ -16,7 +16,7 @@ namespace PharmaCare.Data
 
         public DbSet<User> Users { get; set; } 
 
-
+        public DbSet<Feedback> Feedbacks { get; set; }  
         public DbSet<Doctor> Doctors { get; set; }  
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

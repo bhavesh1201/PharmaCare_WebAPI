@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PharmaCare.Data;
 
@@ -11,9 +12,11 @@ using PharmaCare.Data;
 namespace PharmaCare.Migrations
 {
     [DbContext(typeof(PharmacyContext))]
-    partial class PharmacyContextModelSnapshot : ModelSnapshot
+    [Migration("20230527162819_nEWupd")]
+    partial class nEWupd
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -61,10 +64,15 @@ namespace PharmaCare.Migrations
                     b.Property<DateTime>("ExpiryDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("SupplierSuppilerId")
+                        .HasColumnType("int");
+
                     b.Property<float>("price")
                         .HasColumnType("real");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("SupplierSuppilerId");
 
                     b.ToTable("Drugs");
 
@@ -72,7 +80,7 @@ namespace PharmaCare.Migrations
                         new
                         {
                             Id = 1,
-                            DateCreated = new DateTime(2023, 5, 27, 22, 31, 23, 585, DateTimeKind.Local).AddTicks(4470),
+                            DateCreated = new DateTime(2023, 5, 27, 21, 58, 18, 669, DateTimeKind.Local).AddTicks(452),
                             DrugName = "Acetaminophen",
                             ExpiryDate = new DateTime(2084, 11, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             price = 421f
@@ -80,7 +88,7 @@ namespace PharmaCare.Migrations
                         new
                         {
                             Id = 2,
-                            DateCreated = new DateTime(2023, 5, 27, 22, 31, 23, 585, DateTimeKind.Local).AddTicks(4494),
+                            DateCreated = new DateTime(2023, 5, 27, 21, 58, 18, 669, DateTimeKind.Local).AddTicks(482),
                             DrugName = "Doxycycline",
                             ExpiryDate = new DateTime(2025, 9, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             price = 321f
@@ -88,7 +96,7 @@ namespace PharmaCare.Migrations
                         new
                         {
                             Id = 3,
-                            DateCreated = new DateTime(2023, 5, 27, 22, 31, 23, 585, DateTimeKind.Local).AddTicks(4499),
+                            DateCreated = new DateTime(2023, 5, 27, 21, 58, 18, 669, DateTimeKind.Local).AddTicks(487),
                             DrugName = "Lexapro",
                             ExpiryDate = new DateTime(2025, 1, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             price = 401f
@@ -96,7 +104,7 @@ namespace PharmaCare.Migrations
                         new
                         {
                             Id = 4,
-                            DateCreated = new DateTime(2023, 5, 27, 22, 31, 23, 585, DateTimeKind.Local).AddTicks(4503),
+                            DateCreated = new DateTime(2023, 5, 27, 21, 58, 18, 669, DateTimeKind.Local).AddTicks(490),
                             DrugName = "Pantoprazole",
                             ExpiryDate = new DateTime(2031, 11, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             price = 921f
@@ -104,7 +112,7 @@ namespace PharmaCare.Migrations
                         new
                         {
                             Id = 5,
-                            DateCreated = new DateTime(2023, 5, 27, 22, 31, 23, 585, DateTimeKind.Local).AddTicks(4507),
+                            DateCreated = new DateTime(2023, 5, 27, 21, 58, 18, 669, DateTimeKind.Local).AddTicks(494),
                             DrugName = "secukinumab",
                             ExpiryDate = new DateTime(2027, 9, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             price = 1123f
@@ -112,7 +120,7 @@ namespace PharmaCare.Migrations
                         new
                         {
                             Id = 6,
-                            DateCreated = new DateTime(2023, 5, 27, 22, 31, 23, 585, DateTimeKind.Local).AddTicks(4511),
+                            DateCreated = new DateTime(2023, 5, 27, 21, 58, 18, 669, DateTimeKind.Local).AddTicks(498),
                             DrugName = "Wegovy",
                             ExpiryDate = new DateTime(2052, 10, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             price = 891f
@@ -161,12 +169,7 @@ namespace PharmaCare.Migrations
                     b.Property<string>("SuppilerName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("quntity")
-                        .HasColumnType("int");
-
                     b.HasKey("SuppilerId");
-
-                    b.HasIndex("DrugId");
 
                     b.ToTable("Suppliers");
 
@@ -176,24 +179,21 @@ namespace PharmaCare.Migrations
                             SuppilerId = 1,
                             DrugId = 1,
                             Email = "DavidWA@gmail.com ",
-                            SuppilerName = "David Waxon",
-                            quntity = 0
+                            SuppilerName = "David Waxon"
                         },
                         new
                         {
                             SuppilerId = 2,
                             DrugId = 1,
                             Email = "Andk@gmail.com ",
-                            SuppilerName = "Antony ",
-                            quntity = 0
+                            SuppilerName = "Antony "
                         },
                         new
                         {
                             SuppilerId = 3,
                             DrugId = 1,
                             Email = "JohnSc@gmail.com ",
-                            SuppilerName = "Johan",
-                            quntity = 0
+                            SuppilerName = "Johan"
                         });
                 });
 
@@ -231,12 +231,15 @@ namespace PharmaCare.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("PharmaCare.Models.Drug", b =>
+                {
+                    b.HasOne("PharmaCare.Models.Supplier", null)
+                        .WithMany("Drugs")
+                        .HasForeignKey("SupplierSuppilerId");
+                });
+
             modelBuilder.Entity("PharmaCare.Models.Supplier", b =>
                 {
-                    b.HasOne("PharmaCare.Models.Drug", "Drugs")
-                        .WithMany()
-                        .HasForeignKey("DrugId");
-
                     b.Navigation("Drugs");
                 });
 #pragma warning restore 612, 618

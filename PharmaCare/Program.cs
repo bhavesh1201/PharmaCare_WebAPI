@@ -36,6 +36,7 @@ var key = builder.Configuration.GetValue<string>("ApiSettings:Secret");  // Gett
 builder.Services.AddScoped<IDrugRepository,DrugRepository>();
 builder.Services.AddScoped<ISuppilerRepository,SuppilerRepository>();
 builder.Services.AddScoped<IDoctorRepository, DoctorRepository>();
+builder.Services.AddScoped<IFeedbackRepository,FeedbackRepository>();
 #endregion
 
 builder.Services.AddAuthentication(x =>

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PharmaCare.Models
@@ -12,8 +13,13 @@ namespace PharmaCare.Models
 
         public string Email { get; set;}
 
+        public int quntity { get; set; }
+        public int? DrugId { get; set;}
 
-        public int DrugId { get; set;}
+        [ForeignKey("DrugId")]
+        public Drug Drugs { get; set;}
+
+
 
        
 

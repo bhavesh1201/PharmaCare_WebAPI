@@ -5,6 +5,7 @@ using PharmaCare.Models;
 using PharmaCare.Models.DTO;
 using PharmaCare.Repository;
 using PharmaCare.Repository.IRepository;
+using System.Collections.Immutable;
 using System.Net;
 
 namespace PharmaCare.Controllers
@@ -39,6 +40,7 @@ namespace PharmaCare.Controllers
 
             try
             {
+                
                 _logger.LogInformation("Getting All supplier information infomation");
                 responses.Result = await suppilerRepository.GetAllAsync();
                 responses.HttpStatus = HttpStatusCode.OK;
@@ -81,6 +83,7 @@ namespace PharmaCare.Controllers
                     return NotFound();
                 }
                 _logger.LogInformation($"{temp.SuppilerName} has been Accessed");
+
 
                 responses.Result = await suppilerRepository.GetAsync(u => u.SuppilerId == Id);
                 responses.HttpStatus = HttpStatusCode.OK;
