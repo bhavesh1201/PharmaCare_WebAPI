@@ -12,7 +12,7 @@ namespace PharmaCare.Models.DTO
 
         public string Email { get; set; }
 
-
+        public int quntity { get; set; }
         public int DrugId { get; set; }
 
       

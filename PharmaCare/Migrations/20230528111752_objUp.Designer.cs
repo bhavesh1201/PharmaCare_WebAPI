@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PharmaCare.Data;
 
@@ -11,9 +12,11 @@ using PharmaCare.Data;
 namespace PharmaCare.Migrations
 {
     [DbContext(typeof(PharmacyContext))]
-    partial class PharmacyContextModelSnapshot : ModelSnapshot
+    [Migration("20230528111752_objUp")]
+    partial class objUp
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -72,7 +75,7 @@ namespace PharmaCare.Migrations
                         new
                         {
                             Id = 1,
-                            DateCreated = new DateTime(2023, 6, 2, 9, 40, 25, 244, DateTimeKind.Local).AddTicks(8731),
+                            DateCreated = new DateTime(2023, 5, 28, 16, 47, 51, 643, DateTimeKind.Local).AddTicks(9447),
                             DrugName = "Acetaminophen",
                             ExpiryDate = new DateTime(2084, 11, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             price = 421f
@@ -80,7 +83,7 @@ namespace PharmaCare.Migrations
                         new
                         {
                             Id = 2,
-                            DateCreated = new DateTime(2023, 6, 2, 9, 40, 25, 244, DateTimeKind.Local).AddTicks(8753),
+                            DateCreated = new DateTime(2023, 5, 28, 16, 47, 51, 643, DateTimeKind.Local).AddTicks(9483),
                             DrugName = "Doxycycline",
                             ExpiryDate = new DateTime(2025, 9, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             price = 321f
@@ -88,7 +91,7 @@ namespace PharmaCare.Migrations
                         new
                         {
                             Id = 3,
-                            DateCreated = new DateTime(2023, 6, 2, 9, 40, 25, 244, DateTimeKind.Local).AddTicks(8757),
+                            DateCreated = new DateTime(2023, 5, 28, 16, 47, 51, 643, DateTimeKind.Local).AddTicks(9489),
                             DrugName = "Lexapro",
                             ExpiryDate = new DateTime(2025, 1, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             price = 401f
@@ -96,7 +99,7 @@ namespace PharmaCare.Migrations
                         new
                         {
                             Id = 4,
-                            DateCreated = new DateTime(2023, 6, 2, 9, 40, 25, 244, DateTimeKind.Local).AddTicks(8760),
+                            DateCreated = new DateTime(2023, 5, 28, 16, 47, 51, 643, DateTimeKind.Local).AddTicks(9494),
                             DrugName = "Pantoprazole",
                             ExpiryDate = new DateTime(2031, 11, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             price = 921f
@@ -104,7 +107,7 @@ namespace PharmaCare.Migrations
                         new
                         {
                             Id = 5,
-                            DateCreated = new DateTime(2023, 6, 2, 9, 40, 25, 244, DateTimeKind.Local).AddTicks(8764),
+                            DateCreated = new DateTime(2023, 5, 28, 16, 47, 51, 643, DateTimeKind.Local).AddTicks(9507),
                             DrugName = "secukinumab",
                             ExpiryDate = new DateTime(2027, 9, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             price = 1123f
@@ -112,7 +115,7 @@ namespace PharmaCare.Migrations
                         new
                         {
                             Id = 6,
-                            DateCreated = new DateTime(2023, 6, 2, 9, 40, 25, 244, DateTimeKind.Local).AddTicks(8768),
+                            DateCreated = new DateTime(2023, 5, 28, 16, 47, 51, 643, DateTimeKind.Local).AddTicks(9512),
                             DrugName = "Wegovy",
                             ExpiryDate = new DateTime(2052, 10, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             price = 891f

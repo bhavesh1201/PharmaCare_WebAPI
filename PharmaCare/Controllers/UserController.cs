@@ -107,7 +107,7 @@ namespace PharmaCare.Controllers
 
             user.password = PasswordHasher.HashPassword(user.password);
             user.Token = "";
-            user.role = "Doctor";
+            user.role = "Admin";
 
             await context.Users.AddAsync(user);
             await context.SaveChangesAsync();

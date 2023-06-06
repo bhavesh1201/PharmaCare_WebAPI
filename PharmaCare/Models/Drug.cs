@@ -14,6 +14,7 @@ namespace PharmaCare.Models
 
         public string DrugName { get; set; }
 
+       
         public float price { get; set; }
 
         //public DateOnly ExpieryDate { get; set; }

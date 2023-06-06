@@ -42,7 +42,7 @@ namespace PharmaCare.Controllers
                 _logger.LogInformation("Getting All Feedbacks");
                 responses.Result = await feedbackRepository.GetAllAsync();
                 responses.HttpStatus = HttpStatusCode.OK;
-                return Ok(responses);
+                return Ok(responses.Result);
 
             }
             catch (Exception ex)

@@ -42,9 +42,11 @@ namespace PharmaCare.Controllers
             {
                 
                 _logger.LogInformation("Getting All supplier information infomation");
-                responses.Result = await suppilerRepository.GetAllAsync();
+                var temp = suppilerRepository.GetAllSupWithDrug();
+               
+                
                 responses.HttpStatus = HttpStatusCode.OK;
-                return Ok(responses);
+                return Ok(temp.Result);
 
             }
             catch (Exception ex)
@@ -53,7 +55,7 @@ namespace PharmaCare.Controllers
                 responses.ErrorMessages = new List<string>() { ex.ToString() };
             }
 
-            return Ok(responses);
+            return Ok(responses.Result);
 
 
 

@@ -9,6 +9,8 @@ namespace PharmaCare.Models
         [Key]
         public int SuppilerId { get; set; }
 
+
+        
         public string SuppilerName { get; set;}
 
         public string Email { get; set;}
@@ -17,7 +19,7 @@ namespace PharmaCare.Models
         public int? DrugId { get; set;}
 
         [ForeignKey("DrugId")]
-        public Drug Drugs { get; set;}
+        public virtual Drug Drugs { get; set;}
 
 
 

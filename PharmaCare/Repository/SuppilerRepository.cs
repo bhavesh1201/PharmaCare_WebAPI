@@ -1,6 +1,8 @@
-﻿using PharmaCare.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using PharmaCare.Data;
 using PharmaCare.Models;
 using PharmaCare.Repository.IRepository;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PharmaCare.Repository
 {
@@ -23,7 +25,20 @@ namespace PharmaCare.Repository
             _context.Suppliers.Update(supplier);
             await SaveAsync();
         }
+    
 
-       
+        public async Task<List<Supplier>> GetAllSupWithDrug()
+        {
+
+
+            var temp=   _context.Suppliers.Include(x=>x.Drugs).ToList();
+            return temp;
+
+
+            
+
+
     }
+
+}
 }
