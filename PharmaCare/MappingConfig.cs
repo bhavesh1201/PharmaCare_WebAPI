@@ -14,7 +14,8 @@ namespace PharmaCare
             CreateMap<Drug, DrugDTO>();
             CreateMap<DrugDTO, Drug>();
             CreateMap<Supplier, SupplierDTO>();
-            CreateMap<SupplierDTO, Supplier>(); 
+            CreateMap<SupplierDTO, Supplier>();
+            CreateMap<Order, Order>();
             
         }
     }

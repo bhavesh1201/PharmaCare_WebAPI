@@ -37,6 +37,8 @@ builder.Services.AddScoped<IDrugRepository,DrugRepository>();
 builder.Services.AddScoped<ISuppilerRepository,SuppilerRepository>();
 builder.Services.AddScoped<IDoctorRepository, DoctorRepository>();
 builder.Services.AddScoped<IFeedbackRepository,FeedbackRepository>();
+builder.Services.AddScoped<IOrderRepository,OrderRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 #endregion
 
 builder.Services.AddAuthentication(x =>

@@ -14,14 +14,16 @@ namespace PharmaCare.Repository.IRepository
         Task<bool> CheckEmailExistsAsync(string email);
         string JWT_Token(User user);
 
-        Task<ActionResult<User>> GetAllUser();
+        Task<List<User>> GetAllUser();
 
 
 
 
-        Task<string> Login(LoginRequestDTO loginRequestDTO);
+        Task<string> Login(UserDTO user);
 
-        Task<bool> Register(RegistrationRequestDTO registrationRequestDTO);
+        Task<User> GetUser(UserDTO user);
+
+        Task<bool> Register(User user);
 
 
     }
