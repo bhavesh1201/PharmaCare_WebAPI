@@ -6,134 +6,128 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PharmaCare.Migrations
 {
     /// <inheritdoc />
-    public partial class intV3 : Migration
+    public partial class somechnage : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterColumn<string>(
-                name: "role",
-                table: "Users",
-                type: "nvarchar(max)",
-                nullable: true,
-                oldClrType: typeof(string),
-                oldType: "nvarchar(max)");
-
-            migrationBuilder.AlterColumn<string>(
-                name: "Token",
-                table: "Users",
-                type: "nvarchar(max)",
-                nullable: true,
-                oldClrType: typeof(string),
-                oldType: "nvarchar(max)");
+            migrationBuilder.AddColumn<int>(
+                name: "OrderId",
+                table: "Carts",
+                type: "int",
+                nullable: true);
 
             migrationBuilder.UpdateData(
                 table: "Drugs",
                 keyColumn: "Id",
                 keyValue: 1,
                 column: "DateCreated",
-                value: new DateTime(2023, 5, 20, 10, 46, 38, 269, DateTimeKind.Local).AddTicks(104));
+                value: new DateTime(2023, 6, 30, 21, 31, 46, 622, DateTimeKind.Local).AddTicks(976));
 
             migrationBuilder.UpdateData(
                 table: "Drugs",
                 keyColumn: "Id",
                 keyValue: 2,
                 column: "DateCreated",
-                value: new DateTime(2023, 5, 20, 10, 46, 38, 269, DateTimeKind.Local).AddTicks(119));
+                value: new DateTime(2023, 6, 30, 21, 31, 46, 622, DateTimeKind.Local).AddTicks(1021));
 
             migrationBuilder.UpdateData(
                 table: "Drugs",
                 keyColumn: "Id",
                 keyValue: 3,
                 column: "DateCreated",
-                value: new DateTime(2023, 5, 20, 10, 46, 38, 269, DateTimeKind.Local).AddTicks(121));
+                value: new DateTime(2023, 6, 30, 21, 31, 46, 622, DateTimeKind.Local).AddTicks(1030));
 
             migrationBuilder.UpdateData(
                 table: "Drugs",
                 keyColumn: "Id",
                 keyValue: 4,
                 column: "DateCreated",
-                value: new DateTime(2023, 5, 20, 10, 46, 38, 269, DateTimeKind.Local).AddTicks(123));
+                value: new DateTime(2023, 6, 30, 21, 31, 46, 622, DateTimeKind.Local).AddTicks(1035));
 
             migrationBuilder.UpdateData(
                 table: "Drugs",
                 keyColumn: "Id",
                 keyValue: 5,
                 column: "DateCreated",
-                value: new DateTime(2023, 5, 20, 10, 46, 38, 269, DateTimeKind.Local).AddTicks(125));
+                value: new DateTime(2023, 6, 30, 21, 31, 46, 622, DateTimeKind.Local).AddTicks(1040));
 
             migrationBuilder.UpdateData(
                 table: "Drugs",
                 keyColumn: "Id",
                 keyValue: 6,
                 column: "DateCreated",
-                value: new DateTime(2023, 5, 20, 10, 46, 38, 269, DateTimeKind.Local).AddTicks(126));
+                value: new DateTime(2023, 6, 30, 21, 31, 46, 622, DateTimeKind.Local).AddTicks(1047));
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Carts_OrderId",
+                table: "Carts",
+                column: "OrderId");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Carts_Orders_OrderId",
+                table: "Carts",
+                column: "OrderId",
+                principalTable: "Orders",
+                principalColumn: "OrderId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterColumn<string>(
-                name: "role",
-                table: "Users",
-                type: "nvarchar(max)",
-                nullable: false,
-                defaultValue: "",
-                oldClrType: typeof(string),
-                oldType: "nvarchar(max)",
-                oldNullable: true);
+            migrationBuilder.DropForeignKey(
+                name: "FK_Carts_Orders_OrderId",
+                table: "Carts");
 
-            migrationBuilder.AlterColumn<string>(
-                name: "Token",
-                table: "Users",
-                type: "nvarchar(max)",
-                nullable: false,
-                defaultValue: "",
-                oldClrType: typeof(string),
-                oldType: "nvarchar(max)",
-                oldNullable: true);
+            migrationBuilder.DropIndex(
+                name: "IX_Carts_OrderId",
+                table: "Carts");
+
+            migrationBuilder.DropColumn(
+                name: "OrderId",
+                table: "Carts");
 
             migrationBuilder.UpdateData(
                 table: "Drugs",
                 keyColumn: "Id",
                 keyValue: 1,
                 column: "DateCreated",
-                value: new DateTime(2023, 5, 20, 0, 19, 43, 615, DateTimeKind.Local).AddTicks(4907));
+                value: new DateTime(2023, 6, 30, 18, 40, 57, 486, DateTimeKind.Local).AddTicks(7950));
 
             migrationBuilder.UpdateData(
                 table: "Drugs",
                 keyColumn: "Id",
                 keyValue: 2,
                 column: "DateCreated",
-                value: new DateTime(2023, 5, 20, 0, 19, 43, 615, DateTimeKind.Local).AddTicks(4923));
+                value: new DateTime(2023, 6, 30, 18, 40, 57, 486, DateTimeKind.Local).AddTicks(7972));
 
             migrationBuilder.UpdateData(
                 table: "Drugs",
                 keyColumn: "Id",
                 keyValue: 3,
                 column: "DateCreated",
-                value: new DateTime(2023, 5, 20, 0, 19, 43, 615, DateTimeKind.Local).AddTicks(4926));
+                value: new DateTime(2023, 6, 30, 18, 40, 57, 486, DateTimeKind.Local).AddTicks(7975));
 
             migrationBuilder.UpdateData(
                 table: "Drugs",
                 keyColumn: "Id",
                 keyValue: 4,
                 column: "DateCreated",
-                value: new DateTime(2023, 5, 20, 0, 19, 43, 615, DateTimeKind.Local).AddTicks(4928));
+                value: new DateTime(2023, 6, 30, 18, 40, 57, 486, DateTimeKind.Local).AddTicks(7978));
 
             migrationBuilder.UpdateData(
                 table: "Drugs",
                 keyColumn: "Id",
                 keyValue: 5,
                 column: "DateCreated",
-                value: new DateTime(2023, 5, 20, 0, 19, 43, 615, DateTimeKind.Local).AddTicks(4930));
+                value: new DateTime(2023, 6, 30, 18, 40, 57, 486, DateTimeKind.Local).AddTicks(7981));
 
             migrationBuilder.UpdateData(
                 table: "Drugs",
                 keyColumn: "Id",
                 keyValue: 6,
                 column: "DateCreated",
-                value: new DateTime(2023, 5, 20, 0, 19, 43, 615, DateTimeKind.Local).AddTicks(4932));
+                value: new DateTime(2023, 6, 30, 18, 40, 57, 486, DateTimeKind.Local).AddTicks(7984));
         }
     }
 }

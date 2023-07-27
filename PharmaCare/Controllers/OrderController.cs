@@ -41,7 +41,7 @@ namespace PharmaCare.Controllers
             try
             {
                 _logger.LogInformation("Getting All order infomarion");
-                responses.Result = await _orderRepository.GetAllAsync();
+                responses.Result = await _orderRepository.GetAllSupWithCart();
                 responses.HttpStatus = HttpStatusCode.OK;
                 return Ok(responses.Result);
 
@@ -140,6 +140,7 @@ namespace PharmaCare.Controllers
             {
                 responses.IsSuccess = false;
                 responses.ErrorMessages = new List<string>() { ex.ToString() };
+                return BadRequest();
             }
 
             return Ok();
@@ -172,7 +173,7 @@ namespace PharmaCare.Controllers
                 }
 
                 _logger.LogInformation($"{drz.OrderId} Has Been Deleted from Database");
-                await _orderRepository.RemoveAsync(drz);
+                await _orderRepository.DeleteAsync(drz.OrderId);
                 await _orderRepository.SaveAsync();
 
                 responses.HttpStatus = HttpStatusCode.NoContent;
@@ -238,8 +239,42 @@ namespace PharmaCare.Controllers
 
         #endregion
 
+        #region Get All the order details By user
+        [HttpGet] // This Get Fetches all the orders in form of list
+        [Route("GetAllOrderByUser")]
 
-       
+        // [Authorize(Roles ="doctor")]
+        public async Task<ActionResult<List<Order>>> GetAllOrderByUser(string email)
+        {
+
+
+            try
+            {
+                _logger.LogInformation("Getting All order infomarion");
+                responses.Result = await _orderRepository.GetAllOrderByEmail(email);
+                responses.HttpStatus = HttpStatusCode.OK;
+                return Ok(responses.Result);
+
+            }
+            catch (Exception ex)
+            {
+                responses.IsSuccess = false;
+                responses.ErrorMessages = new List<string>() { ex.ToString() };
+                return BadRequest();
+            }
+
+            return Ok(responses.Result);
+
+
+
+        }
+        #endregion
+
+
+
+
+
+
 
 
     }

@@ -12,8 +12,8 @@ using PharmaCare.Data;
 namespace PharmaCare.Migrations
 {
     [DbContext(typeof(PharmacyContext))]
-    [Migration("20230519183133_intial_V2")]
-    partial class intial_V2
+    [Migration("20230630160147_somechnage")]
+    partial class somechnage
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,6 +25,24 @@ namespace PharmaCare.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("PharmaCare.Models.Cart", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("OrderId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("Carts");
+                });
+
             modelBuilder.Entity("PharmaCare.Models.Doctor", b =>
                 {
                     b.Property<int>("Id")
@@ -34,15 +52,12 @@ namespace PharmaCare.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Role")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -62,15 +77,10 @@ namespace PharmaCare.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("DrugName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("ExpiryDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("ImageUrl")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<float>("price")
                         .HasColumnType("real");
@@ -83,57 +93,113 @@ namespace PharmaCare.Migrations
                         new
                         {
                             Id = 1,
-                            DateCreated = new DateTime(2023, 5, 20, 0, 1, 33, 70, DateTimeKind.Local).AddTicks(8399),
+                            DateCreated = new DateTime(2023, 6, 30, 21, 31, 46, 622, DateTimeKind.Local).AddTicks(976),
                             DrugName = "Acetaminophen",
                             ExpiryDate = new DateTime(2084, 11, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ImageUrl = "",
                             price = 421f
                         },
                         new
                         {
                             Id = 2,
-                            DateCreated = new DateTime(2023, 5, 20, 0, 1, 33, 70, DateTimeKind.Local).AddTicks(8422),
+                            DateCreated = new DateTime(2023, 6, 30, 21, 31, 46, 622, DateTimeKind.Local).AddTicks(1021),
                             DrugName = "Doxycycline",
                             ExpiryDate = new DateTime(2025, 9, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ImageUrl = "",
                             price = 321f
                         },
                         new
                         {
                             Id = 3,
-                            DateCreated = new DateTime(2023, 5, 20, 0, 1, 33, 70, DateTimeKind.Local).AddTicks(8425),
+                            DateCreated = new DateTime(2023, 6, 30, 21, 31, 46, 622, DateTimeKind.Local).AddTicks(1030),
                             DrugName = "Lexapro",
                             ExpiryDate = new DateTime(2025, 1, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ImageUrl = "",
                             price = 401f
                         },
                         new
                         {
                             Id = 4,
-                            DateCreated = new DateTime(2023, 5, 20, 0, 1, 33, 70, DateTimeKind.Local).AddTicks(8426),
+                            DateCreated = new DateTime(2023, 6, 30, 21, 31, 46, 622, DateTimeKind.Local).AddTicks(1035),
                             DrugName = "Pantoprazole",
                             ExpiryDate = new DateTime(2031, 11, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ImageUrl = "",
                             price = 921f
                         },
                         new
                         {
                             Id = 5,
-                            DateCreated = new DateTime(2023, 5, 20, 0, 1, 33, 70, DateTimeKind.Local).AddTicks(8428),
+                            DateCreated = new DateTime(2023, 6, 30, 21, 31, 46, 622, DateTimeKind.Local).AddTicks(1040),
                             DrugName = "secukinumab",
                             ExpiryDate = new DateTime(2027, 9, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ImageUrl = "",
                             price = 1123f
                         },
                         new
                         {
                             Id = 6,
-                            DateCreated = new DateTime(2023, 5, 20, 0, 1, 33, 70, DateTimeKind.Local).AddTicks(8430),
+                            DateCreated = new DateTime(2023, 6, 30, 21, 31, 46, 622, DateTimeKind.Local).AddTicks(1047),
                             DrugName = "Wegovy",
                             ExpiryDate = new DateTime(2052, 10, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ImageUrl = "",
                             price = 891f
                         });
+                });
+
+            modelBuilder.Entity("PharmaCare.Models.Feedback", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("meesage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Feedbacks");
+                });
+
+            modelBuilder.Entity("PharmaCare.Models.Order", b =>
+                {
+                    b.Property<int>("OrderId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderId"));
+
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsApproved")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("OrderDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Payment")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TotalItems")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TotalPrice")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("OrderId");
+
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("PharmaCare.Models.Supplier", b =>
@@ -144,18 +210,21 @@ namespace PharmaCare.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SuppilerId"));
 
-                    b.Property<int>("DrugId")
+                    b.Property<int?>("DrugId")
                         .HasColumnType("int");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SuppilerName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("quntity")
+                        .HasColumnType("int");
+
                     b.HasKey("SuppilerId");
+
+                    b.HasIndex("DrugId");
 
                     b.ToTable("Suppliers");
 
@@ -165,21 +234,24 @@ namespace PharmaCare.Migrations
                             SuppilerId = 1,
                             DrugId = 1,
                             Email = "DavidWA@gmail.com ",
-                            SuppilerName = "David Waxon"
+                            SuppilerName = "David Waxon",
+                            quntity = 0
                         },
                         new
                         {
                             SuppilerId = 2,
                             DrugId = 1,
                             Email = "Andk@gmail.com ",
-                            SuppilerName = "Antony "
+                            SuppilerName = "Antony ",
+                            quntity = 0
                         },
                         new
                         {
                             SuppilerId = 3,
                             DrugId = 1,
                             Email = "JohnSc@gmail.com ",
-                            SuppilerName = "Johan"
+                            SuppilerName = "Johan",
+                            quntity = 0
                         });
                 });
 
@@ -191,31 +263,51 @@ namespace PharmaCare.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
-                    b.Property<int>("Username")
-                        .HasColumnType("int");
+                    b.Property<string>("Token")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("age")
                         .HasColumnType("int");
 
                     b.Property<string>("email")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("password")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("role")
-                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("username")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("id");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("PharmaCare.Models.Cart", b =>
+                {
+                    b.HasOne("PharmaCare.Models.Order", null)
+                        .WithMany("Carts")
+                        .HasForeignKey("OrderId");
+                });
+
+            modelBuilder.Entity("PharmaCare.Models.Supplier", b =>
+                {
+                    b.HasOne("PharmaCare.Models.Drug", "Drugs")
+                        .WithMany()
+                        .HasForeignKey("DrugId");
+
+                    b.Navigation("Drugs");
+                });
+
+            modelBuilder.Entity("PharmaCare.Models.Order", b =>
+                {
+                    b.Navigation("Carts");
                 });
 #pragma warning restore 612, 618
         }

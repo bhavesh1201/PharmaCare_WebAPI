@@ -25,6 +25,8 @@ namespace PharmaCare.Repository.IRepository
 
         Task<bool> Register(User user);
 
+        Task<bool> Delete(int id);
+
 
     }
 }

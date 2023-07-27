@@ -1,4 +1,5 @@
 ﻿using PharmaCare.Models;
+using System.Threading.Tasks;
 
 namespace PharmaCare.Repository.IRepository
 {
@@ -6,6 +7,10 @@ namespace PharmaCare.Repository.IRepository
     {
         Task UpdateAsync(Order order);
 
-        Task GetAll(string name);
+        Task<List<Order>> GetAllSupWithCart();
+
+        Task<List<Order>> GetAllOrderByEmail(string email);
+
+        Task DeleteAsync(int id);
     }
 }

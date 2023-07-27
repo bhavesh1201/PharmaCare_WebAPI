@@ -124,9 +124,20 @@ namespace PharmaCare.Controllers
            var temp= await userRepository.GetAllUser();
             return Ok(temp);
         }
+        [HttpDelete]
+        [Route("DeleteUser")]
 
-       
-        
+        public async Task<ActionResult> DeleteUser(int id)
+        {
+         
+              
+            var temp = await userRepository.Delete(id);
+            return Ok(temp);
+        }
+
+
+
+
 
     }
 }

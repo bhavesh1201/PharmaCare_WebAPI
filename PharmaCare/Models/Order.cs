@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Drawing;
 
 namespace PharmaCare.Models
 {
@@ -20,9 +21,13 @@ namespace PharmaCare.Models
 
         public string Payment { get ; set;} 
 
-       
+        public string Email { get; set;}
 
-        
+        public List<Cart>  Carts { get; set;}
+      
+       
+      
+
         public string UserName { get; set; }    
 
 

@@ -67,7 +67,8 @@ namespace PharmaCare.Repository
                 Subject = new ClaimsIdentity(new Claim[]
                 {
                     new Claim(ClaimTypes.Role,temp.role),
-                    new Claim(ClaimTypes.Name,temp.name)
+                    new Claim(ClaimTypes.Name,temp.name),
+                    new Claim(ClaimTypes.Email,temp.email)
 
 
                 }),
@@ -106,6 +107,18 @@ namespace PharmaCare.Repository
             return temp;
         }
 
+
+        public async Task <bool> Delete(int id)
+        {
+
+            var temp = await context.Users.FirstOrDefaultAsync(x => x.id == id);
+            context.Users.Remove(temp);
+            context.SaveChanges();
+
+
+            return  true;
+
+        }
        
     }
 }
